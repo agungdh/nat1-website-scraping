@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKERHUB_IMAGE: agungdh/test-scraping
-  GHCR_IMAGE: ghcr.io/agungdh/test-scraping
+  DOCKERHUB_IMAGE: agungdh/nat1-website-scraping
+  GHCR_IMAGE: ghcr.io/agungdh/nat1-website-scraping
 
 jobs:
   build-and-push:
