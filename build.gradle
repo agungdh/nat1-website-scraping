@@ -26,7 +26,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompileOnly 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'com.microsoft.playwright:playwright:1.57.0'
+    implementation 'com.microsoft.playwright:playwright:1.60.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     testAnnotationProcessor 'org.projectlombok:lombok'
 }
