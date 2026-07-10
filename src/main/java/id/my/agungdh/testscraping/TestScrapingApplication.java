@@ -1,11 +1,16 @@
 package id.my.agungdh.testscraping;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import id.my.agungdh.testscraping.model.BlogData;
 import id.my.agungdh.testscraping.scraper.BlogScraper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Slf4j
 @SpringBootApplication
@@ -22,35 +27,16 @@ public class TestScrapingApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
         log.info("Starting blog scraping...");
         BlogData data = blogScraper.scrape();
 
-        log.info("\n========================================");
-        log.info("  CATEGORIES ({})", data.getCategories().size());
-        log.info("========================================");
-        for (String category : data.getCategories()) {
-            log.info("  - {}", category);
-        }
+        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        Path outputPath = Path.of("blog-data.json");
+        mapper.writeValue(outputPath.toFile(), data);
 
-        log.info("\n========================================");
-        log.info("  TAGS ({})", data.getTags().size());
-        log.info("========================================");
-        for (String tag : data.getTags()) {
-            log.info("  - {}", tag);
-        }
-
-        log.info("\n========================================");
-        log.info("  BLOG POSTS ({})", data.getPosts().size());
-        log.info("========================================");
-        for (BlogData.BlogPost post : data.getPosts()) {
-            log.info("  Title   : {}", post.getTitle());
-            log.info("  URL     : {}", post.getUrl());
-            log.info("  Date    : {}", post.getDate());
-            log.info("  Category: {}", post.getCategory());
-            log.info("  Tags    : {}", post.getTags());
-            log.info("  Excerpt : {}", post.getExcerpt());
-            log.info("----------------------------------------");
-        }
+        log.info("Blog data written to {}", outputPath.toAbsolutePath());
+        log.info("Categories: {}, Tags: {}, Posts: {}",
+                data.getCategories().size(), data.getTags().size(), data.getPosts().size());
     }
 }
