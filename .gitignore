@@ -33,7 +33,8 @@ out/
 /nbdist/
 /.nb-gradle/
 
-blog-data.json
+/output/
+blog-data*.json
 
 ### VS Code ###
 .vscode/
