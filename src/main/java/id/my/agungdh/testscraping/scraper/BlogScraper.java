@@ -14,8 +14,9 @@ public class BlogScraper {
 
     public BlogData scrape() {
         log.info("Launching Playwright browser...");
+        boolean headless = !"false".equalsIgnoreCase(System.getenv("HEADLESS"));
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless));
             Page page = browser.newPage();
 
             log.info("Navigating to homepage...");

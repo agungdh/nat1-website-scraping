@@ -31,8 +31,12 @@ public class TestScrapingApplication implements CommandLineRunner {
         log.info("Starting blog scraping...");
         BlogData data = blogScraper.scrape();
 
+        String outputDir = System.getenv().getOrDefault("OUTPUT_DIR", ".");
+        Path outputDirPath = Path.of(outputDir);
+        Files.createDirectories(outputDirPath);
+
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        Path outputPath = Path.of("blog-data.json");
+        Path outputPath = outputDirPath.resolve("blog-data.json");
         mapper.writeValue(outputPath.toFile(), data);
 
         log.info("Blog data written to {}", outputPath.toAbsolutePath());
