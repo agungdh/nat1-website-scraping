@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @SpringBootApplication
@@ -36,7 +38,8 @@ public class TestScrapingApplication implements CommandLineRunner {
         Files.createDirectories(outputDirPath);
 
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        Path outputPath = outputDirPath.resolve("blog-data.json");
+        String timestamp = ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
+        Path outputPath = outputDirPath.resolve("blog-data-" + timestamp + ".json");
         mapper.writeValue(outputPath.toFile(), data);
 
         log.info("Blog data written to {}", outputPath.toAbsolutePath());
